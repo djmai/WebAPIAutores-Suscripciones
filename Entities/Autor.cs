@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPIAutores.Validaciones;
 
 namespace WebAPIAutores.Entities
 {
@@ -13,6 +14,7 @@ namespace WebAPIAutores.Entities
 
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [StringLength(maximumLength: 5, ErrorMessage = "El campo {0} no debe tener más de {1} carácteres")]
+        [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
 
         [Range(18, 100, ErrorMessage = "El campo {0} debe ser entre {1} y {2}")]
