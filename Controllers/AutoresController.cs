@@ -18,8 +18,9 @@ namespace WebAPIAutores.Controllers
         private readonly ServiceTransient serviceTransient;
         private readonly ServiceScoped serviceScoped;
         private readonly ServiceSingleton serviceSingleton;
+        private readonly ILogger<AutoresController> logger;
 
-        public AutoresController(ApplicationDbContext context, IService service, ServiceTransient serviceTransient, ServiceScoped serviceScoped, ServiceSingleton serviceSingleton)
+        public AutoresController(ApplicationDbContext context, IService service, ServiceTransient serviceTransient, ServiceScoped serviceScoped, ServiceSingleton serviceSingleton, ILogger<AutoresController> logger)
         {
 
             this.context = context;
@@ -27,12 +28,14 @@ namespace WebAPIAutores.Controllers
             this.serviceTransient = serviceTransient;
             this.serviceScoped = serviceScoped;
             this.serviceSingleton = serviceSingleton;
+            this.logger = logger;
         }
 
         [HttpGet("GUID")]
         public ActionResult<Guid> ObtenerGuids()
         {
-            return Ok(new {
+            return Ok(new
+            {
                 AutoresControllerTransient = serviceTransient.Guid,
                 ServiceA_Transient = service.ObtenerTransient(),
                 AutoresControllerScoped = serviceScoped.Guid,
@@ -47,6 +50,7 @@ namespace WebAPIAutores.Controllers
         [HttpGet("/listado")] // listado
         public async Task<ActionResult<List<Autor>>> Get()
         {
+            logger.LogInformation("Estamos obteniendo los autores");
             service.RealizarTarea();
             return await context.Autores.Include(x => x.Libros).ToListAsync();
         }

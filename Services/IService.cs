@@ -34,7 +34,6 @@ namespace WebAPIAutores.Services
 
         public void RealizarTarea()
         {
-            throw new NotImplementedException();
         }
     }
 
@@ -57,7 +56,6 @@ namespace WebAPIAutores.Services
 
         public void RealizarTarea()
         {
-            throw new NotImplementedException();
         }
     }
 
