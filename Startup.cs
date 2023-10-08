@@ -38,8 +38,8 @@ namespace WebAPIAutores
             services.AddTransient<ServiceTransient>();
             services.AddScoped<ServiceScoped>();
             services.AddSingleton<ServiceSingleton>();
-
             services.AddTransient<MiFiltroDeAccion>();
+            services.AddHostedService<EscribirEnArchivo>();
 
             services.AddResponseCaching();
 
