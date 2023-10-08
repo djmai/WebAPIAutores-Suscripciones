@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using WebAPIAutores.Middlewares;
 using WebAPIAutores.Services;
 
 namespace WebAPIAutores
@@ -60,10 +62,26 @@ namespace WebAPIAutores
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
+            // app.Run(async contexto => {
+            //     await contexto.Response.WriteAsync("Estoy interceptando la petición");
+            // });
+            // app.UseMiddleware<LoguearRespuestaHTTPMiddleware>();
+            app.UseLoguearRespuestaHTTP();
+
+            app.Map("/ruta1", app =>
+            {
+                app.Run(async contexto =>
+                {
+                    await contexto.Response.WriteAsync("Estoy interceptando la petición");
+                });
+            });
+
             if (env.IsDevelopment())
             {
+                app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API Autores v1"));
             }
 
             app.UseHttpsRedirection();
