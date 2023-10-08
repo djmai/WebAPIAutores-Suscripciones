@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using WebAPIAutores.Filters;
 using WebAPIAutores.Middlewares;
 using WebAPIAutores.Services;
 
@@ -22,7 +24,10 @@ namespace WebAPIAutores
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            services.AddControllers(opciones =>
+            {
+                opciones.Filters.Add(typeof(FiltroDeException));
+            }).AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //services.AddEndpointsApiExplorer();
 
@@ -33,6 +38,25 @@ namespace WebAPIAutores
             services.AddTransient<ServiceTransient>();
             services.AddScoped<ServiceScoped>();
             services.AddSingleton<ServiceSingleton>();
+
+            services.AddTransient<MiFiltroDeAccion>();
+
+            services.AddResponseCaching();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    // options.TokenValidationParameters = new TokenValidationParameters
+                    // {
+                    //     ValidateIssuer = false,
+                    //     ValidateAudience = false,
+                    //     ValidateLifetime = true,
+                    //     ValidateIssuerSigningKey = true,
+                    //     IssuerSigningKey = new SymmetricSecurityKey(
+                    //         Encoding.UTF8.GetBytes(Configuration["keyjwt"]!)),
+                    //     ClockSkew = TimeSpan.Zero
+                    // };
+                });
 
             services.AddSwaggerGen(c =>
             {
@@ -87,6 +111,8 @@ namespace WebAPIAutores
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseResponseCaching();
 
             app.UseAuthorization();
 
