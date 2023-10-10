@@ -13,6 +13,13 @@ namespace WebAPIAutores
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<AutorLibro>().HasKey(al => new { al.AutorId, al.LibroId });
+        }
+
         // Comando para iniciar migraciones desde terminal
         //  dotnet ef migrations add NOMBRE_MIGRACION
 
@@ -22,5 +29,6 @@ namespace WebAPIAutores
         public DbSet<Autor> Autores { get; set; }
         public DbSet<Libro> Libros { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<AutorLibro> AutoresLibros { get; set; }
     }
 }
