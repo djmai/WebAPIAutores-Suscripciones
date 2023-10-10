@@ -71,6 +71,8 @@ namespace WebAPIAutores
                 string[] methodsOrder = new string[] { "get", "post", "put", "patch", "delete", "options", "trace" };
                 c.OrderActionsBy(apiDesc => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{Array.IndexOf(methodsOrder, apiDesc.HttpMethod!.ToLower())}");
             });
+
+            services.AddAutoMapper(typeof(Startup));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
