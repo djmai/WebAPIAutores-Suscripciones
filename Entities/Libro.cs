@@ -14,11 +14,5 @@ namespace WebAPIAutores.Entities
         [Required(ErrorMessage = "El campo {0} es requerido")]
         [PrimeraLetraMayuscula]
         public string Titulo { get; set; }
-
-
-        [Required(ErrorMessage = "El campo {0} es requerido")]
-        public int AutorId { get; set; }
-
-        public Autor Autor { get; set; }
     }
 }

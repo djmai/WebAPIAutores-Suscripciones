@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using WebAPIAutores.Filters;
 using WebAPIAutores.Middlewares;
-using WebAPIAutores.Services;
 
 namespace WebAPIAutores
 {
@@ -32,16 +31,6 @@ namespace WebAPIAutores
             //services.AddEndpointsApiExplorer();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
-
-            services.AddTransient<IService, ServiceA>();
-
-            services.AddTransient<ServiceTransient>();
-            services.AddScoped<ServiceScoped>();
-            services.AddSingleton<ServiceSingleton>();
-            services.AddTransient<MiFiltroDeAccion>();
-            services.AddHostedService<EscribirEnArchivo>();
-
-            services.AddResponseCaching();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -86,20 +75,7 @@ namespace WebAPIAutores
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
-            // app.Run(async contexto => {
-            //     await contexto.Response.WriteAsync("Estoy interceptando la petición");
-            // });
-            // app.UseMiddleware<LoguearRespuestaHTTPMiddleware>();
             app.UseLoguearRespuestaHTTP();
-
-            app.Map("/ruta1", app =>
-            {
-                app.Run(async contexto =>
-                {
-                    await contexto.Response.WriteAsync("Estoy interceptando la petición");
-                });
-            });
 
             if (env.IsDevelopment())
             {
@@ -111,8 +87,6 @@ namespace WebAPIAutores
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseResponseCaching();
 
             app.UseAuthorization();
 
