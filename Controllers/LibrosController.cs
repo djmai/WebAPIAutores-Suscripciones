@@ -32,12 +32,17 @@ namespace WebAPIAutores.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<LibroDTO>> Get(int id)
+        public async Task<ActionResult<LibroDTOConAutores>> Get(int id)
         {
             // var libro = await context.Libros.Include(libroDB => libroDB.Comentarios).FirstOrDefaultAsync(x => x.Id == id);
-            var libro = await context.Libros.FirstOrDefaultAsync(x => x.Id == id);
+            var libro = await context.Libros
+                .Include(libroBD => libroBD.AutoresLibros)
+                .ThenInclude(autorLibroBD => autorLibroBD.Autor)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            return mapper.Map<LibroDTO>(libro);
+            libro.AutoresLibros = libro.AutoresLibros.OrderBy(x => x.Orden).ToList();
+
+            return mapper.Map<LibroDTOConAutores>(libro);
         }
 
         [HttpPost]
@@ -48,7 +53,23 @@ namespace WebAPIAutores.Controllers
             // if (!existeAutor)
             //     return BadRequest($"No existe el autor del Id: {libro.AutorId}");
 
+            if (libroCreacionDTO.AutoresIds == null)
+                return BadRequest("No hay autores asociados al libro");
+
+            var autoresIds = await context.Autores.Where(autorDB => libroCreacionDTO.AutoresIds.Contains(autorDB.Id)).Select(x => x.Id).ToListAsync();
+
+            if (libroCreacionDTO.AutoresIds.Count != autoresIds.Count)
+                return BadRequest("No existe uno de los autores enviados");
+
             var libro = mapper.Map<Libro>(libroCreacionDTO);
+
+            if (libro.AutoresLibros != null)
+            {
+                for (int i = 0; i < libro.AutoresLibros.Count; i++)
+                {
+                    libro.AutoresLibros[i].Orden = i;
+                }
+            }
 
             context.Add(libro);
             await context.SaveChangesAsync();

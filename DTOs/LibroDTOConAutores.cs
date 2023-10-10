@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace WebAPIAutores.DTOs
 {
-    public class AutorDTO
+    public class LibroDTOConAutores: LibroDTO
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        
+        public List<AutorDTO> Autores { get; set; }
     }
 }
