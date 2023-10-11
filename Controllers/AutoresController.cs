@@ -18,12 +18,21 @@ namespace WebAPIAutores.Controllers
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
+        private readonly IConfiguration configuration;
 
-        public AutoresController(ApplicationDbContext context, IMapper mapper)
+        public AutoresController(ApplicationDbContext context, IMapper mapper, IConfiguration configuration)
         {
             this.context = context;
             this.mapper = mapper;
+            this.configuration = configuration;
         }
+
+        [HttpGet("configuraciones")]
+        public ActionResult<string> GetConfiguraciones()
+        {
+            return configuration["apellido"];
+        }
+
 
         [HttpGet] // api/autores
         public async Task<ActionResult<List<AutorDTO>>> Get()
