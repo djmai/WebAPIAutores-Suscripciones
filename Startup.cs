@@ -26,7 +26,7 @@ namespace WebAPIAutores
             services.AddControllers(opciones =>
             {
                 opciones.Filters.Add(typeof(FiltroDeException));
-            }).AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            }).AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddNewtonsoftJson();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //services.AddEndpointsApiExplorer();
 
@@ -68,8 +68,8 @@ namespace WebAPIAutores
                     // }
                 });
 
-                string[] methodsOrder = new string[] { "get", "post", "put", "patch", "delete", "options", "trace" };
-                c.OrderActionsBy(apiDesc => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{Array.IndexOf(methodsOrder, apiDesc.HttpMethod!.ToLower())}");
+                // string[] methodsOrder = new string[] { "get", "post", "put", "patch", "delete", "options", "trace" };
+                // c.OrderActionsBy(apiDesc => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{Array.IndexOf(methodsOrder, apiDesc.HttpMethod!.ToLower())}");
             });
 
             services.AddAutoMapper(typeof(Startup));
