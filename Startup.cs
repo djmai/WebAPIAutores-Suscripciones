@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebAPIAutores.Filters;
 using WebAPIAutores.Middlewares;
@@ -36,16 +38,16 @@ namespace WebAPIAutores
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    // options.TokenValidationParameters = new TokenValidationParameters
-                    // {
-                    //     ValidateIssuer = false,
-                    //     ValidateAudience = false,
-                    //     ValidateLifetime = true,
-                    //     ValidateIssuerSigningKey = true,
-                    //     IssuerSigningKey = new SymmetricSecurityKey(
-                    //         Encoding.UTF8.GetBytes(Configuration["keyjwt"]!)),
-                    //     ClockSkew = TimeSpan.Zero
-                    // };
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(Configuration["llavejwt"])),
+                        ClockSkew = TimeSpan.Zero
+                    };
                 });
 
             services.AddSwaggerGen(c =>
