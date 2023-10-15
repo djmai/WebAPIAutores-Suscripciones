@@ -117,6 +117,8 @@ namespace WebAPIAutores
                 opciones.AddPolicy("esAdmin", politica => politica.RequireClaim("esAdmin"));
             });
 
+            services.AddDataProtection();
+
             // Configuracion de CORS
             services.AddCors(opciones =>
             {
