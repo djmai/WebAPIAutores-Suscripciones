@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebAPIAutores.Filters;
 using WebAPIAutores.Middlewares;
+using WebAPIAutores.Services;
 
 namespace WebAPIAutores
 {
@@ -118,6 +119,8 @@ namespace WebAPIAutores
             });
 
             services.AddDataProtection();
+
+            services.AddTransient<HashService>();
 
             // Configuracion de CORS
             services.AddCors(opciones =>

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebAPIAutores.DTOs;
+using WebAPIAutores.Services;
 
 namespace WebAPIAutores.Controllers
 {
@@ -22,17 +23,33 @@ namespace WebAPIAutores.Controllers
         private readonly UserManager<IdentityUser> userManager;
         private readonly IConfiguration configuration;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly HashService hashService;
         private readonly IDataProtector dataProtector;
 
-        public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration, SignInManager<IdentityUser> signInManager, IDataProtectionProvider dataProtectionProvider)
+        public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration, SignInManager<IdentityUser> signInManager, IDataProtectionProvider dataProtectionProvider, HashService hashService)
         {
             this.userManager = userManager;
             this.configuration = configuration;
             this.signInManager = signInManager;
+            this.hashService = hashService;
             dataProtector = dataProtectionProvider.CreateProtector("ASP.NET Identity");
         }
 
         // Ejemplos de encriptación
+        [HttpGet("hash/{textoPlano}")]
+        public ActionResult RealizarHash(string textoPlano)
+        {
+            var resultado1 = hashService.Hash(textoPlano);
+            var resultado2 = hashService.Hash(textoPlano);
+
+            return Ok(new
+            {
+                textoPlano,
+                Hash1 = resultado1,
+                Hash2 = resultado2,
+            });
+        }
+
         [HttpGet("encriptar")]
         public ActionResult Encriptar()
         {
@@ -52,7 +69,7 @@ namespace WebAPIAutores.Controllers
         public ActionResult EncriptarPorTiempo()
         {
             var protectorLimitadoPorTiempo = dataProtector.ToTimeLimitedDataProtector();
-            
+
             var textoPlano = "Mi nombre es Pedro";
             var textoCifrado = protectorLimitadoPorTiempo.Protect(textoPlano, lifetime: TimeSpan.FromSeconds(5));
             Thread.Sleep(6000);
