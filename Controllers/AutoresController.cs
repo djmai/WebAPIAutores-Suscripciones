@@ -30,6 +30,7 @@ namespace WebAPIAutores.Controllers
         }
 
         [HttpGet] // api/autores
+        [AllowAnonymous]
         public async Task<ActionResult<List<AutorDTO>>> Get()
         {
             var autores = await context.Autores.ToListAsync();

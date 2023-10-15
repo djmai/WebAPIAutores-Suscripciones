@@ -104,15 +104,27 @@ namespace WebAPIAutores
 
             services.AddAutoMapper(typeof(Startup));
 
+            // Configuracion de Identity
+
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            // Configuracion de Autorizacion
 
             services.AddAuthorization(opciones =>
             {
                 opciones.AddPolicy("esAdmin", politica => politica.RequireClaim("esAdmin"));
             });
 
+            // Configuracion de CORS
+            services.AddCors(opciones =>
+            {
+                opciones.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -129,6 +141,9 @@ namespace WebAPIAutores
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            // Acticación de Cors
+            app.UseCors();
 
             app.UseAuthorization();
 
