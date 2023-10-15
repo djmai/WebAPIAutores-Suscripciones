@@ -108,6 +108,11 @@ namespace WebAPIAutores
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthorization(opciones =>
+            {
+                opciones.AddPolicy("esAdmin", politica => politica.RequireClaim("esAdmin"));
+            });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
