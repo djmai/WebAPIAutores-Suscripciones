@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +19,7 @@ using WebAPIAutores.Middlewares;
 using WebAPIAutores.Services;
 using WebAPIAutores.Utilidades;
 
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 namespace WebAPIAutores
 {
     public class Startup
@@ -78,27 +81,27 @@ namespace WebAPIAutores
                     // }
                 });
 
-                // c.SwaggerDoc("v2", new OpenApiInfo
-                // {
-                //     Title = "Web API Autores",
-                //     Description = "Aplicación para API Autores",
-                //     Version = "v2",
-                //     // TermsOfService = new Uri("http://tempuri.org/terms"),
-                //     Contact = new OpenApiContact
-                //     {
-                //         Name = "Miguel Martínez",
-                //         Email = "mmartinez@mmartinezdev.com",
-                //         Url = new Uri("http://www.mmartinezdev.com")
-                //     },
-                //     // License = new OpenApiLicense
-                //     // {
-                //     //     Name = "Apache 2.0",
-                //     //     Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
-                //     // }
-                // });
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Title = "Web API Autores",
+                    Description = "Aplicación para API Autores",
+                    Version = "v2",
+                    // TermsOfService = new Uri("http://tempuri.org/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Miguel Martínez",
+                        Email = "mmartinez@mmartinezdev.com",
+                        Url = new Uri("http://www.mmartinezdev.com")
+                    },
+                    // License = new OpenApiLicense
+                    // {
+                    //     Name = "Apache 2.0",
+                    //     Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
+                    // }
+                });
 
                 c.OperationFilter<AgregarParametroHATEOAS>();
-                c.OperationFilter<AgregarParametroXVersion>();
+                // c.OperationFilter<AgregarParametroXVersion>(); // Agregar parametro x-version al swagger
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -124,6 +127,10 @@ namespace WebAPIAutores
                         new string[] {}
                     }
                 });
+
+                // var archivoXML = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // var rutaXML = Path.Combine(AppContext.BaseDirectory, archivoXML);
+                // c.IncludeXmlComments(rutaXML);
 
                 // string[] methodsOrder = new string[] { "get", "post", "put", "patch", "delete", "options", "trace" };
                 // c.OrderActionsBy(apiDesc => $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{Array.IndexOf(methodsOrder, apiDesc.HttpMethod!.ToLower())}");
@@ -153,7 +160,8 @@ namespace WebAPIAutores
             {
                 opciones.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
+                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader()
+                        .WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
                 });
             });
 

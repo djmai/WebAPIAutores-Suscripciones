@@ -15,10 +15,11 @@ using WebAPIAutores.Utilidades;
 namespace WebAPIAutores.Controllers.V1
 {
     [ApiController]
-    // [Route("api/v1/autores")]
-    [Route("api/autores")]
-    [CabeceraEstaPresente("x-version", "1")]
+    [Route("api/v1/autores")]
+    // [Route("api/autores")]
+    // [CabeceraEstaPresente("x-versi}on", "1")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "esAdmin")]
+    // [ApiConventionType(typeof(DefaultApiConventions))]
     public class AutoresController : ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -35,15 +36,21 @@ namespace WebAPIAutores.Controllers.V1
         [HttpGet(Name = "obtenerAutoresV1")] // api/autores
         [AllowAnonymous]
         [ServiceFilter(typeof(HATEOSAutorFilterAttribute))]
-        public async Task<ActionResult<List<AutorDTO>>> Get()
+        public async Task<ActionResult<List<AutorDTO>>> Get([FromQuery] PaginacionDTO paginacionDTO)
         {
-            var autores = await context.Autores.ToListAsync();
+            var queryable = context.Autores.AsQueryable();
+            await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+
+            var autores = await queryable.OrderBy(autor => autor.Nombre).Paginar(paginacionDTO).ToListAsync();
+
             return mapper.Map<List<AutorDTO>>(autores);
         }
 
         [HttpGet("{id:int}", Name = "obtenerAutorV1")]
         [AllowAnonymous]
         [ServiceFilter(typeof(HATEOSAutorFilterAttribute))]
+        // [ProducesResponseType(200)]
+        // [ProducesResponseType(404)]
         public async Task<ActionResult<AutorDTOConLibros>> Get(int id)
         {
             var autor = await context.Autores
@@ -62,8 +69,6 @@ namespace WebAPIAutores.Controllers.V1
 
             return dto;
         }
-
-
 
         [HttpGet("{nombre}", Name = "obtenerAutorPorNombreV1")]
         public async Task<ActionResult<List<AutorDTO>>> GetPorNombre([FromRoute] string nombre)
@@ -113,6 +118,11 @@ namespace WebAPIAutores.Controllers.V1
             return NoContent();
         }
 
+        /// <summary>
+        /// Borra un autor
+        /// </summary>
+        /// <param name="id">Id del autor a borrar</param>
+        /// <returns></returns>
         [HttpDelete("{id:int}", Name = "borrarAutorV1")]
         public async Task<ActionResult> Delete(int id)
         {
