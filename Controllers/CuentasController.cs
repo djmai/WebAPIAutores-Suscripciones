@@ -36,54 +36,54 @@ namespace WebAPIAutores.Controllers
         }
 
         // Ejemplos de encriptación
-        [HttpGet("hash/{textoPlano}")]
-        public ActionResult RealizarHash(string textoPlano)
-        {
-            var resultado1 = hashService.Hash(textoPlano);
-            var resultado2 = hashService.Hash(textoPlano);
+        // [HttpGet("hash/{textoPlano}")]
+        // public ActionResult RealizarHash(string textoPlano)
+        // {
+        //     var resultado1 = hashService.Hash(textoPlano);
+        //     var resultado2 = hashService.Hash(textoPlano);
 
-            return Ok(new
-            {
-                textoPlano,
-                Hash1 = resultado1,
-                Hash2 = resultado2,
-            });
-        }
+        //     return Ok(new
+        //     {
+        //         textoPlano,
+        //         Hash1 = resultado1,
+        //         Hash2 = resultado2,
+        //     });
+        // }
 
-        [HttpGet("encriptar")]
-        public ActionResult Encriptar()
-        {
-            var textoPlano = "Mi nombre es Pedro";
-            var textoCifrado = dataProtector.Protect(textoPlano);
-            var textoDesencriptado = dataProtector.Unprotect(textoCifrado);
+        // [HttpGet("encriptar")]
+        // public ActionResult Encriptar()
+        // {
+        //     var textoPlano = "Mi nombre es Pedro";
+        //     var textoCifrado = dataProtector.Protect(textoPlano);
+        //     var textoDesencriptado = dataProtector.Unprotect(textoCifrado);
 
-            return Ok(new
-            {
-                textoPlano,
-                textoCifrado,
-                textoDesencriptado
-            });
-        }
+        //     return Ok(new
+        //     {
+        //         textoPlano,
+        //         textoCifrado,
+        //         textoDesencriptado
+        //     });
+        // }
 
-        [HttpGet("encriptarPorTiempo")]
-        public ActionResult EncriptarPorTiempo()
-        {
-            var protectorLimitadoPorTiempo = dataProtector.ToTimeLimitedDataProtector();
+        // [HttpGet("encriptarPorTiempo")]
+        // public ActionResult EncriptarPorTiempo()
+        // {
+        //     var protectorLimitadoPorTiempo = dataProtector.ToTimeLimitedDataProtector();
 
-            var textoPlano = "Mi nombre es Pedro";
-            var textoCifrado = protectorLimitadoPorTiempo.Protect(textoPlano, lifetime: TimeSpan.FromSeconds(5));
-            Thread.Sleep(6000);
-            var textoDesencriptado = protectorLimitadoPorTiempo.Unprotect(textoCifrado);
+        //     var textoPlano = "Mi nombre es Pedro";
+        //     var textoCifrado = protectorLimitadoPorTiempo.Protect(textoPlano, lifetime: TimeSpan.FromSeconds(5));
+        //     Thread.Sleep(6000);
+        //     var textoDesencriptado = protectorLimitadoPorTiempo.Unprotect(textoCifrado);
 
-            return Ok(new
-            {
-                textoPlano,
-                textoCifrado,
-                textoDesencriptado
-            });
-        }
+        //     return Ok(new
+        //     {
+        //         textoPlano,
+        //         textoCifrado,
+        //         textoDesencriptado
+        //     });
+        // }
 
-        [HttpPost("registrar")] // api/cuentas/registrar
+        [HttpPost("registrar", Name = "registrarUsuario")] // api/cuentas/registrar
         public async Task<ActionResult<RespuestaAutenticacion>> Registrar(CredencialesUsuario credencialesUsuario)
         {
             var usuario = new IdentityUser { UserName = credencialesUsuario.Email, Email = credencialesUsuario.Email };
@@ -99,7 +99,7 @@ namespace WebAPIAutores.Controllers
             }
         }
 
-        [HttpPost("login")]
+        [HttpPost("login", Name = "loginUsuario")]
         public async Task<ActionResult<RespuestaAutenticacion>> Login(CredencialesUsuario credencialesUsuario)
         {
             var resultado = await signInManager.PasswordSignInAsync(credencialesUsuario.Email, credencialesUsuario.Password, isPersistent: false, lockoutOnFailure: false);
@@ -114,7 +114,7 @@ namespace WebAPIAutores.Controllers
             }
         }
 
-        [HttpGet("RenovarToken")]
+        [HttpGet("RenovarToken", Name = "renovarToken")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<RespuestaAutenticacion>> Renovar()
         {
@@ -159,7 +159,7 @@ namespace WebAPIAutores.Controllers
             };
         }
 
-        [HttpPost("HacerAdmin")]
+        [HttpPost("HacerAdmin", Name = "hacerAdmin")]
         public async Task<ActionResult> HacerAdmin(EditarAdminDTO editarAdminDTO)
         {
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);
@@ -167,7 +167,7 @@ namespace WebAPIAutores.Controllers
             return NoContent();
         }
 
-        [HttpPost("RemoverAdmin")]
+        [HttpPost("RemoverAdmin", Name = "removerAdmin")]
         public async Task<ActionResult> RemoverAdmin(EditarAdminDTO editarAdminDTO)
         {
             var usuario = await userManager.FindByEmailAsync(editarAdminDTO.Email);

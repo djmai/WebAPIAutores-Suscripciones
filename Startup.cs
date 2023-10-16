@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using WebAPIAutores.Filters;
 using WebAPIAutores.Middlewares;
 using WebAPIAutores.Services;
+using WebAPIAutores.Utilidades;
 
 namespace WebAPIAutores
 {
@@ -130,6 +132,10 @@ namespace WebAPIAutores
                     builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
                 });
             });
+
+            services.AddTransient<GeneradorEnlaces>();
+            services.AddTransient<HATEOSAutorFilterAttribute>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
