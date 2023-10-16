@@ -76,6 +76,8 @@ namespace WebAPIAutores
                     // }
                 });
 
+                c.OperationFilter<AgregarParametroHATEOAS>();
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     BearerFormat = "JWT",
