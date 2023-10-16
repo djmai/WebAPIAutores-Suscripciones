@@ -73,29 +73,29 @@ namespace WebAPIAutores
                     },
                     // License = new OpenApiLicense
                     // {
-                    //     Name = "Apache 2.0",
+                    //     Name = "MTI",
                     //     Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
                     // }
                 });
 
-                c.SwaggerDoc("v2", new OpenApiInfo
-                {
-                    Title = "Web API Autores",
-                    Description = "Aplicación para API Autores",
-                    Version = "v2",
-                    // TermsOfService = new Uri("http://tempuri.org/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Miguel Martínez",
-                        Email = "mmartinez@mmartinezdev.com",
-                        Url = new Uri("http://www.mmartinezdev.com")
-                    },
-                    // License = new OpenApiLicense
-                    // {
-                    //     Name = "Apache 2.0",
-                    //     Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
-                    // }
-                });
+                // c.SwaggerDoc("v2", new OpenApiInfo
+                // {
+                //     Title = "Web API Autores",
+                //     Description = "Aplicación para API Autores",
+                //     Version = "v2",
+                //     // TermsOfService = new Uri("http://tempuri.org/terms"),
+                //     Contact = new OpenApiContact
+                //     {
+                //         Name = "Miguel Martínez",
+                //         Email = "mmartinez@mmartinezdev.com",
+                //         Url = new Uri("http://www.mmartinezdev.com")
+                //     },
+                //     // License = new OpenApiLicense
+                //     // {
+                //     //     Name = "Apache 2.0",
+                //     //     Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
+                //     // }
+                // });
 
                 c.OperationFilter<AgregarParametroHATEOAS>();
                 c.OperationFilter<AgregarParametroXVersion>();
