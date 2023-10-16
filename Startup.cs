@@ -34,6 +34,8 @@ namespace WebAPIAutores
             services.AddControllers(opciones =>
             {
                 opciones.Filters.Add(typeof(FiltroDeException));
+                opciones.Conventions.Add(new SwaggerAgrupaPorVersion());
+
             }).AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddNewtonsoftJson();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //services.AddEndpointsApiExplorer();
@@ -76,7 +78,27 @@ namespace WebAPIAutores
                     // }
                 });
 
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Title = "Web API Autores",
+                    Description = "Aplicación para API Autores",
+                    Version = "v2",
+                    // TermsOfService = new Uri("http://tempuri.org/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Miguel Martínez",
+                        Email = "mmartinez@mmartinezdev.com",
+                        Url = new Uri("http://www.mmartinezdev.com")
+                    },
+                    // License = new OpenApiLicense
+                    // {
+                    //     Name = "Apache 2.0",
+                    //     Url = new Uri("http://www.apache.org/licenses/LICENSE-2.0.html")
+                    // }
+                });
+
                 c.OperationFilter<AgregarParametroHATEOAS>();
+                c.OperationFilter<AgregarParametroXVersion>();
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -147,9 +169,14 @@ namespace WebAPIAutores
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API Autores v1"));
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web API Autores v1");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Web API Autores v2");
+            });
 
             app.UseHttpsRedirection();
 

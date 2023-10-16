@@ -14,10 +14,10 @@ using Microsoft.IdentityModel.Tokens;
 using WebAPIAutores.DTOs;
 using WebAPIAutores.Services;
 
-namespace WebAPIAutores.Controllers
+namespace WebAPIAutores.Controllers.V1
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1/cuentas")]
     public class CuentasController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;

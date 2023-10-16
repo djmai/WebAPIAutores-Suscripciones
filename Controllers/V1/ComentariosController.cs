@@ -11,10 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using WebAPIAutores.DTOs;
 using WebAPIAutores.Entities;
 
-namespace WebAPIAutores.Controllers
+namespace WebAPIAutores.Controllers.V1
 {
     [ApiController]
-    [Route("api/libros/{libroId:int}/[controller]")]
+    [Route("api/v1/libros/{libroId:int}/[controller]")]
     public class ComentariosController : ControllerBase
     {
         private readonly ApplicationDbContext context;
