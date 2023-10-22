@@ -10,7 +10,7 @@ La Web API de Autores es un servicio que permite a los usuarios obtener informac
 
 #### MTIE. Miguel Manuel Martínez Vázquez
 
-[![Versión](https://img.shields.io/badge/Versión-0.0.0-blue.svg)](https://github.com/djmai/api-mmmv/releases/tag/api-mmmv-v.0.0.0)  ![GitHub User's stars](https://img.shields.io/github/stars/djmai)
+[![Versión](https://img.shields.io/badge/Versión-1.3.0-blue.svg)](https://github.com/djmai/WebAPIAutores-Net-Core/releases/tag/v1.3.0)  ![GitHub User's stars](https://img.shields.io/github/stars/djmai)
 
 [![donate](https://www.paypalobjects.com/es_ES/i/btn/btn_donate_SM.gif)](https://paypal.me/IngMiguelMartinez?locale.x=es_XC)  [![Whatsapp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.link/7trr5f)
 
@@ -33,7 +33,7 @@ La Web API de Autores es un servicio que permite a los usuarios obtener informac
 1. Clona el repositorio.
 
    ```bash
-   git clone https://github.com/tuusuario/web-api-autores.git
+   git clone https://github.com/djmai/web-api-autores.git
    ```
 
 2. Navegar hasta la carpeta del proyecto
