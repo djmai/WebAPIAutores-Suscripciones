@@ -167,7 +167,7 @@ namespace WebAPIAutores
             });
 
             services.AddTransient<GeneradorEnlaces>();
-            //services.AddTransient<HATEOSAutorFilterAttribute>();
+            services.AddTransient<HATEOSAutorFilterAttribute>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 			services.AddScoped<ServicioLlaves>(); // Agregando ServicioLlaves
@@ -196,7 +196,10 @@ namespace WebAPIAutores
             // Acticación de Cors
             app.UseCors();
 
-            app.UseAuthorization();
+			// Activación de LimitarPeticiones
+			app.UseLimitarPeticiones();
+
+			app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
