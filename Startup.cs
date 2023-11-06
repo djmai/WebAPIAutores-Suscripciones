@@ -160,8 +160,9 @@ namespace WebAPIAutores
             {
                 opciones.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader()
-                        .WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
+                    //builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader()
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader() // Permitir cualquier origen 
+						.WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
                 });
             });
 
