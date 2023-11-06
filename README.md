@@ -1,8 +1,8 @@
 <img width="300px" align="right" alt="logo_mmmv" src="https://mmartinezdev.com/wp-content/uploads/2023/05/cropped-Red-M-Letter-Mosaic-Logo-Template-2-100x62.png">
 
-# Web API de Autores
+# Web API de Autores - Suscripciones
 
-Esta es una Web API construida con .NET Core que gestiona información sobre autores de libros.
+Esta es una Web API construida con .NET Core que gestiona información sobre autores de libros mediante suscripcion.
 
 ## Descripción
 
