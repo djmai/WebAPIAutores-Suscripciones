@@ -169,7 +169,9 @@ namespace WebAPIAutores
             services.AddTransient<GeneradorEnlaces>();
             services.AddTransient<HATEOSAutorFilterAttribute>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-        }
+
+			services.AddScoped<ServicioLlaves>(); // Agregando ServicioLlaves
+		}
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
