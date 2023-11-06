@@ -100,7 +100,7 @@ namespace WebAPIAutores
                     // }
                 });
 
-                c.OperationFilter<AgregarParametroHATEOAS>();
+                // c.OperationFilter<AgregarParametroHATEOAS>();
                 // c.OperationFilter<AgregarParametroXVersion>(); // Agregar parametro x-version al swagger
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -167,7 +167,7 @@ namespace WebAPIAutores
             });
 
             services.AddTransient<GeneradorEnlaces>();
-            services.AddTransient<HATEOSAutorFilterAttribute>();
+            //services.AddTransient<HATEOSAutorFilterAttribute>();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 			services.AddScoped<ServicioLlaves>(); // Agregando ServicioLlaves
