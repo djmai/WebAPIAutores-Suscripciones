@@ -112,8 +112,24 @@ namespace WebAPIAutores.Middlewares
 				return true;
 
 			var peticionSuperaLasRestriccionesDeDominio = PeticionSuperaLasRestriccionesDeDominio(llaveAPI.RestriccionesDominio, httpContext);
+			var peticionSuperaLasRestriccionesDeIP = PeticionSuperaLasRestriccionesDeIP(llaveAPI.RestriccionesIP, httpContext);
 
-			return peticionSuperaLasRestriccionesDeDominio;
+			return peticionSuperaLasRestriccionesDeDominio || peticionSuperaLasRestriccionesDeIP;
+		}
+
+		private bool PeticionSuperaLasRestriccionesDeIP(List<RestriccionIP> restricciones, HttpContext httpContext)
+		{
+			if (restricciones == null || restricciones.Count == 0)
+				return false;
+
+			var IP = httpContext.Connection.RemoteIpAddress.ToString();
+
+			if (IP == string.Empty)
+				return false;
+
+
+			var superaRestriccion = restricciones.Any(x => x.IP == IP);
+			return superaRestriccion;
 		}
 
 		private bool PeticionSuperaLasRestriccionesDeDominio(List<RestriccionDominio> restricciones, HttpContext httpContext)
