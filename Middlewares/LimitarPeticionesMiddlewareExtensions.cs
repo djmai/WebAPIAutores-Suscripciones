@@ -58,6 +58,7 @@ namespace WebAPIAutores.Middlewares
 			var llaveDB = await context.LlavesAPI
 				.Include(x => x.RestriccionesDominio)
 				.Include(x => x.RestriccionesIP)
+				.Include(x => x.Usuario)
 				.FirstOrDefaultAsync(x => x.Llave == llave);
 
 			if (llaveDB == null)
@@ -88,6 +89,12 @@ namespace WebAPIAutores.Middlewares
 						"actualice su suscripción a una cuenta profesional");
 					return;
 				}
+			}
+			else if (llaveDB.Usuario.MalaPaga)
+			{
+				httpContext.Response.StatusCode = 400;
+				await httpContext.Response.WriteAsync("El usuario es mala paga.");
+				return;
 			}
 
 			var superaRestricciones = PeticionSuperaAlgunaDeLasRestricciones(llaveDB, httpContext);
