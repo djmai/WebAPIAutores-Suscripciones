@@ -8,7 +8,7 @@ using WebAPIAutores.Entities;
 
 namespace WebAPIAutores
 {
-	public class ApplicationDbContext : IdentityDbContext
+	public class ApplicationDbContext : IdentityDbContext<Usuario>
 	{
 		public ApplicationDbContext(DbContextOptions options) : base(options)
 		{

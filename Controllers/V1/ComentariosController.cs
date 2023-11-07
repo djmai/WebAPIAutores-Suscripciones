@@ -20,9 +20,9 @@ namespace WebAPIAutores.Controllers.V1
     {
         private readonly ApplicationDbContext context;
         private readonly IMapper mapper;
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<Usuario> userManager;
 
-        public ComentariosController(ApplicationDbContext context, IMapper mapper, UserManager<IdentityUser> userManager)
+        public ComentariosController(ApplicationDbContext context, IMapper mapper, UserManager<Usuario> userManager)
         {
             this.context = context;
             this.mapper = mapper;

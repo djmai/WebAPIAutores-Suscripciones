@@ -18,7 +18,7 @@ namespace WebAPIAutores.Entities
 
         public string UsuarioId { get; set; }
 
-        public IdentityUser Usuario { get; set; }
+        public Usuario Usuario { get; set; }
 
     }
 }

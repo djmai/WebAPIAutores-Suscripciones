@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using WebAPIAutores.Entities;
 using WebAPIAutores.Filters;
 using WebAPIAutores.Middlewares;
 using WebAPIAutores.Services;
@@ -140,7 +141,7 @@ namespace WebAPIAutores
 
             // Configuracion de Identity
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<Usuario, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 

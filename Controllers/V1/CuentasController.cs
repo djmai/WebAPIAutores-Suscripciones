@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebAPIAutores.DTOs;
+using WebAPIAutores.Entities;
 using WebAPIAutores.Services;
 
 namespace WebAPIAutores.Controllers.V1
@@ -20,12 +21,12 @@ namespace WebAPIAutores.Controllers.V1
 	[Route("api/v1/cuentas")]
 	public class CuentasController : ControllerBase
 	{
-		private readonly UserManager<IdentityUser> userManager;
+		private readonly UserManager<Usuario> userManager;
 		private readonly IConfiguration configuration;
-		private readonly SignInManager<IdentityUser> signInManager;
+		private readonly SignInManager<Usuario> signInManager;
 		private readonly ServicioLlaves servicioLlaves;
 
-		public CuentasController(UserManager<IdentityUser> userManager, IConfiguration configuration, SignInManager<IdentityUser> signInManager, ServicioLlaves servicioLlaves)
+		public CuentasController(UserManager<Usuario> userManager, IConfiguration configuration, SignInManager<Usuario> signInManager, ServicioLlaves servicioLlaves)
 		{
 			this.userManager = userManager;
 			this.configuration = configuration;
@@ -36,7 +37,7 @@ namespace WebAPIAutores.Controllers.V1
 		[HttpPost("registrar", Name = "registrarUsuario")] // api/cuentas/registrar
 		public async Task<ActionResult<RespuestaAutenticacion>> Registrar(CredencialesUsuario credencialesUsuario)
 		{
-			var usuario = new IdentityUser { UserName = credencialesUsuario.Email, Email = credencialesUsuario.Email };
+			var usuario = new Usuario { UserName = credencialesUsuario.Email, Email = credencialesUsuario.Email };
 			var resultado = await userManager.CreateAsync(usuario, credencialesUsuario.Password);
 
 			if (resultado.Succeeded)
