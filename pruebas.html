@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FrontEnd</title>
+</head>
+
+<body>
+  <script>
+    var headers = new Headers({
+      "X-Api-Key": "6cb309332b5d4744bd765b7162a51161"
+    });
+
+    fetch('https://localhost:7055/api/v1/autores', { headers })
+      .then(response => response.json())
+      .then(data => document.write(JSON.stringify(data)));
+  </script>
+</body>
+
+</html>
