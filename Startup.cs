@@ -172,6 +172,7 @@ namespace WebAPIAutores
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
 			services.AddScoped<ServicioLlaves>(); // Agregando ServicioLlaves
+            services.AddHostedService<FacturasHostedService>();
 		}
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
